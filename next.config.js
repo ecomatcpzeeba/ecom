@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com',
+        hostname: 'res.cloudinary.com', // if your website has no www, drop it
       },
       {
         protocol: 'http',
@@ -14,4 +14,4 @@ const nextConfig = {
   },
 }
 
-export default nextConfig
+module.exports = nextConfig
