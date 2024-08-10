@@ -6,6 +6,14 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  theme: {
+    colors: {
+      primary: '#8e3816',
+      second: '#f3c3b0',
+      complementary: '#0037ff',
+      accent: '#000000',
+    },
+  },
   daisyui: {
     themes: [
       {

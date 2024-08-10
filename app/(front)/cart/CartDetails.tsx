@@ -68,7 +68,7 @@ export default function CartDetails() {
                         +
                       </button>
                     </td>
-                    <td>${item.price}</td>
+                    <td>₹ {item.price}</td>
                   </tr>
                 ))}
               </tbody>
