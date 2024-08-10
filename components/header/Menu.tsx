@@ -62,6 +62,11 @@ const Menu = () => {
           )}
         </i>
         <li>
+          <Link className="btn btn-ghost rounded-btn" href="/Contact-Us">
+            Contact
+          </Link>
+        </li>
+        <li>
           <Link className="btn btn-ghost rounded-btn" href="/cart">
             Cart
             {mounted && items.length != 0 && (

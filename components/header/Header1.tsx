@@ -24,7 +24,7 @@ const Header = () => {
             </svg>
           </label>
           <Link href="/" className="btn btn-ghost text-lg">
-            Next Amazona V2
+            CPZeeba.com
           </Link>
           <Menu />
         </div>
