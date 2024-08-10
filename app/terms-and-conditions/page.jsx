@@ -10,12 +10,13 @@ export default function TermsCondition() {
         <p className="my-4 font-bold">Last updated on Jul 17th 2024</p>
         <p className="">
           For the purpose of these Terms and Conditions, The term
-          &quot;we&quot;, &quot;us&quot;, "our" used anywhere on this page shall
-          mean CHENNAI PLAZA, whose registered/operational office is FIRST
-          FLOOR, NO. 277/30, PYCROFT ROAD, TRIPLICANE, Chennai, Tamil Nadu,
-          600005 Chennai TAMIL NADU 600005 . &quot;you&quot;, &quot;your&quot;,
-          &quot;user&quot;, &quot;visitor&quot; shall mean any natural or legal
-          person who is visiting our website and/or agreed to purchase from us.
+          &ldquot;we&rdquot;, &ldquot;us&rdquot;, "our" used anywhere on this
+          page shall mean CHENNAI PLAZA, whose registered/operational office is
+          FIRST FLOOR, NO. 277/30, PYCROFT ROAD, TRIPLICANE, Chennai, Tamil
+          Nadu, 600005 Chennai TAMIL NADU 600005 . &ldquot;you&rdquot;,
+          &ldquot;your&rdquot;, &ldquot;user&rdquot;, &ldquot;visitor&rdquot;
+          shall mean any natural or legal person who is visiting our website
+          and/or agreed to purchase from us.
         </p>
 
         <p className="my-4 font-bold">
