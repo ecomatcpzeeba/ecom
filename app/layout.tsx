@@ -10,7 +10,7 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Next js 14 Ecommerce',
+  title: 'CPZeeba',
   description: 'Modern Ecommerce Website',
 }
 
