@@ -45,7 +45,7 @@ export const PUT = auth(async (...p: any) => {
       }
     )
   }
-})
+}) as any
 
 export const DELETE = auth(async (...args: any) => {
   const [req, { params }] = args
