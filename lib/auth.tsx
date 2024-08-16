@@ -38,6 +38,21 @@ export const config = {
     error: '/signin',
   },
   callbacks: {
+    async redirect({
+      url,
+      baseUrl,
+    }: {
+      url: string
+      baseUrl: string
+    }): Promise<string> {
+      // Ensure URL is correctly formed with the custom domain
+      if (url.startsWith(baseUrl)) {
+        return url
+      } else if (url.startsWith('/')) {
+        return `${baseUrl}${url}`
+      }
+      return baseUrl
+    },
     async jwt({ user, trigger, session, token }: any) {
       if (user) {
         token.user = {
