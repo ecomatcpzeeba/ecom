@@ -17,7 +17,7 @@ const Menu = () => {
   const authUrl = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'
 
   const signoutHandler = () => {
-    signOut({ callbackUrl: `${authUrl}/signin` })
+    signOut({ callbackUrl: `/signin` })
     init()
   }
   const { data: session } = useSession()
