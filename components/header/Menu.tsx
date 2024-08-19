@@ -128,11 +128,7 @@ const Menu = () => {
             <button
               className="btn btn-ghost rounded-btn"
               type="button"
-              onClick={() =>
-                signIn({
-                  callbackUrl: '/',
-                })
-              }
+              onClick={() => signIn()}
             >
               Sign in
             </button>
