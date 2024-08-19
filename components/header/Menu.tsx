@@ -14,7 +14,7 @@ const Menu = () => {
     setMounted(true)
   }, [])
 
-  const authUrl = process.env['NEXTAUTH_URL'] ?? 'http://localhost:3000'
+  const authUrl = process.env.NEXTAUTH_URL ?? 'http://localhost:3000'
 
   const signoutHandler = () => {
     signOut({ callbackUrl: `${authUrl}//signin` })
