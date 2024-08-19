@@ -131,7 +131,6 @@ const Menu = () => {
               onClick={() =>
                 signIn('credentials', {
                   callbackUrl: '/',
-                  redirect: false,
                 })
               }
             >
