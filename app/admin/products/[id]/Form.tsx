@@ -8,6 +8,7 @@ import { Product } from '@/lib/models/ProductModel'
 import { formatId } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function ProductEditForm({ productId }: { productId: string }) {
   const { data: product, error } = useSWR(`/api/admin/products/${productId}`)
@@ -122,10 +123,12 @@ export default function ProductEditForm({ productId }: { productId: string }) {
 
         <div className="md:flex mb-6">
           {product.image && (
-            <img
+            <Image
               src={product.image}
               alt="Product Image"
               className="w-32 h-32 mb-4"
+              width={48}
+              height={48}
             />
           )}
           <label className="label md:w-1/5" htmlFor="imageFile">

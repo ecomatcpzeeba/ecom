@@ -1,10 +1,11 @@
 import { auth } from '@/lib/auth'
 import cloudinary from 'cloudinary'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 
 export const POST = auth(async (req: any) => {
   if (!req.auth || !req.auth.user?.isAdmin) {
-    return Response.json({ message: 'unauthorized' }, { status: 401 })
+    return NextResponse.json({ message: 'unauthorized' }, { status: 401 })
   }
 
   const timestamp = Math.round(new Date().getTime() / 1000)
@@ -14,7 +15,7 @@ export const POST = auth(async (req: any) => {
     },
     process.env.CLOUDINARY_SECRET!
   )
-  return Response.json({ signature, timestamp })
+  return NextResponse.json({ signature, timestamp })
 }) as any
 
 export default async function handler(
