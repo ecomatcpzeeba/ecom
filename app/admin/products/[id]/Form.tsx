@@ -2,12 +2,12 @@
 import useSWRMutation from 'swr/mutation'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
-import Link from 'next/link'
-import { ValidationRule, useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 import { Product } from '@/lib/models/ProductModel'
 import { formatId } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function ProductEditForm({ productId }: { productId: string }) {
   const { data: product, error } = useSWR(`/api/admin/products/${productId}`)
@@ -15,7 +15,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
   const { trigger: updateProduct, isMutating: isUpdating } = useSWRMutation(
     `/api/admin/products/${productId}`,
     async (url, { arg }) => {
-      const res = await fetch(`${url}`, {
+      const res = await fetch(url, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +24,6 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       })
       const data = await res.json()
       if (!res.ok) return toast.error(data.message)
-
       toast.success('Product updated successfully')
       router.push('/admin/products')
     }
@@ -33,70 +32,19 @@ export default function ProductEditForm({ productId }: { productId: string }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     setValue,
+    formState: { errors },
   } = useForm<Product>()
 
-  useEffect(() => {
-    if (!product) return
-    setValue('name', product.name)
-    setValue('slug', product.slug)
-    setValue('price', product.price)
-    setValue('image', product.image)
-    setValue('category', product.category)
-    setValue('brand', product.brand)
-    setValue('countInStock', product.countInStock)
-    setValue('description', product.description)
-  }, [product, setValue])
-
-  const formSubmit = async (formData: any) => {
-    await updateProduct(formData)
-  }
-
-  if (error) return error.message
-  if (!product) return 'Loading...'
-
-  const FormInput = ({
-    id,
-    name,
-    required,
-    pattern,
-  }: {
-    id: keyof Product
-    name: string
-    required?: boolean
-    pattern?: ValidationRule<RegExp>
-  }) => (
-    <div className="md:flex mb-6">
-      <label className="label md:w-1/5" htmlFor={id}>
-        {name}
-      </label>
-      <div className="md:w-4/5">
-        <input
-          type="text"
-          id={id}
-          {...register(id, {
-            required: required && `${name} is required`,
-            pattern,
-          })}
-          className="input input-bordered w-full max-w-md"
-        />
-        {errors[id]?.message && (
-          <div className="text-error">{errors[id]?.message}</div>
-        )}
-      </div>
-    </div>
-  )
-
-  const uploadHandler = async (e: any) => {
+  const handleSingleImageUpload = async (e: any) => {
     const toastId = toast.loading('Uploading image...')
-
     try {
-      const resSign = await fetch(`/api/cloudinary-sign`, {
+      const resSign = await fetch('/api/cloudinary-sign', {
         method: 'POST',
       })
       const { signature, timestamp } = await resSign.json()
       const file = e.target.files[0]
+
       const formData = new FormData()
       formData.append('file', file)
       formData.append('signature', signature)
@@ -114,49 +62,181 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       toast.success('File uploaded successfully', {
         id: toastId,
       })
-    } catch (err: any) {}
+    } catch (err: any) {
+      toast.error(err.message, {
+        id: toastId,
+      })
+    }
   }
+
+  useEffect(() => {
+    if (product) {
+      setValue('name', product.name)
+      setValue('slug', product.slug)
+      setValue('price', product.price)
+      setValue('image', product.image)
+      setValue('category', product.category)
+      setValue('brand', product.brand)
+      setValue('countInStock', product.countInStock)
+      setValue('description', product.description)
+      setValue('colors', product.colors)
+      setValue('sizes', product.sizes)
+    }
+  }, [product, setValue])
+
+  const onSubmit = async (formData: any) => {
+    await updateProduct(formData)
+  }
+
+  if (error) return error.message
+  if (!product) return 'Loading...'
 
   return (
     <div>
       <h1 className="text-2xl py-4">Edit Product {formatId(productId)}</h1>
-      <div>
-        <form onSubmit={handleSubmit(formSubmit)}>
-          <FormInput name="Name" id="name" required />
-          <FormInput name="Slug" id="slug" required />
-          <FormInput name="Image" id="image" required />
-          <div className="md:flex mb-6">
-            <label className="label md:w-1/5" htmlFor="imageFile">
-              Upload Image
-            </label>
-            <div className="md:w-4/5">
-              <input
-                type="file"
-                className="file-input w-full max-w-md"
-                id="imageFile"
-                onChange={uploadHandler}
-              />
-            </div>
-          </div>
-          <FormInput name="Price" id="price" required />
-          <FormInput name="Category" id="category" required />
-          <FormInput name="Brand" id="brand" required />
-          <FormInput name="Description" id="description" required />
-          <FormInput name="Count In Stock" id="countInStock" required />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Basic Product Details */}
+        <div className="mb-4">
+          <label>Product Name</label>
+          <input
+            type="text"
+            {...register('name', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.name && (
+            <span className="text-red-500">Name is required</span>
+          )}
+        </div>
 
-          <button
-            type="submit"
-            disabled={isUpdating}
-            className="btn btn-primary"
-          >
-            {isUpdating && <span className="loading loading-spinner"></span>}
-            Update
-          </button>
-          <Link className="btn ml-4 " href="/admin/products">
-            Cancel
-          </Link>
-        </form>
-      </div>
+        <div className="mb-4">
+          <label>Slug</label>
+          <input
+            type="text"
+            {...register('slug', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.slug && (
+            <span className="text-red-500">Slug is required</span>
+          )}
+        </div>
+
+        <div className="md:flex mb-6">
+          {product.image && (
+            <img
+              src={product.image}
+              alt="Product Image"
+              className="w-32 h-32 mb-4"
+            />
+          )}
+          <label className="label md:w-1/5" htmlFor="imageFile">
+            Upload Image
+          </label>
+          <div className="md:w-4/5">
+            <input
+              type="file"
+              className="file-input w-full max-w-md"
+              id="imageFile"
+              onChange={(e) => handleSingleImageUpload(e)}
+            />
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label>Price</label>
+          <input
+            type="number"
+            {...register('price', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.price && (
+            <span className="text-red-500">Price is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Category</label>
+          <input
+            type="text"
+            {...register('category', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.category && (
+            <span className="text-red-500">Category is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Brand</label>
+          <input
+            type="text"
+            {...register('brand', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.brand && (
+            <span className="text-red-500">Brand is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Description</label>
+          <input
+            type="text"
+            {...register('description', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.description && (
+            <span className="text-red-500">Description is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Count In Stock</label>
+          <input
+            type="number"
+            {...register('countInStock', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.countInStock && (
+            <span className="text-red-500">Count in Stock is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Color</label>
+          <input
+            type="text"
+            {...register('colors', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.colors && (
+            <span className="text-red-500">Color is required</span>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label>Size</label>
+          <input
+            type="text"
+            {...register('sizes', { required: true })}
+            className="w-full border p-2"
+          />
+          {errors.sizes && (
+            <span className="text-red-500">Size is required</span>
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-4 py-2 rounded btn ml-4 "
+        >
+          {isUpdating && <span className="loading loading-spinner"></span>}
+          Update Product
+        </button>
+        <Link className="btn ml-4 " href="/admin/products">
+          Cancel
+        </Link>
+      </form>
     </div>
   )
 }

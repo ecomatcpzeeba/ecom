@@ -12,6 +12,8 @@ const productSchema = new mongoose.Schema(
     numReviews: { type: Number, required: true, default: 0 },
     countInStock: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
+    colors: { type: String, required: true },
+    sizes: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
     banner: String,
   },
@@ -38,6 +40,6 @@ export type Product = {
   rating: number
   numReviews: number
   countInStock: number
-  colors?: []
-  sizes?: []
+  colors: string
+  sizes: string
 }

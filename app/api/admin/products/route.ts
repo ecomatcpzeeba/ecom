@@ -28,6 +28,8 @@ export const POST = auth(async (req: any) => {
     description: 'sample description',
     rating: 0,
     numReviews: 0,
+    colors: 'Black',
+    sizes: 'XL',
   })
   try {
     await product.save()

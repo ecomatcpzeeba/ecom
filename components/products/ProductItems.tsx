@@ -6,7 +6,7 @@ import { Rating } from './Rating'
 
 export default function ProductItems({ product }: { product: Product }) {
   return (
-    <div className="card bg-base-300 shadow-xl mb-4">
+    <div className="card bg-base-300 shadow-xl mb-4 max-w-sm rounded overflow-hidden">
       <figure>
         <Link href={`/product/${product.slug}`}>
           <Image
@@ -14,7 +14,7 @@ export default function ProductItems({ product }: { product: Product }) {
             alt={product.name}
             width={300}
             height={300}
-            className="object-cover h-64 w-full"
+            className="object-cover w-full"
           />
         </Link>
       </figure>

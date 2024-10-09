@@ -44,6 +44,7 @@ export default function Products() {
       })
       const data = await res.json()
       if (!res.ok) return toast.error(data.message)
+      console.log(data.message)
       toast.success('Product created successfully')
       router.push(`/admin/products/${data.product._id}`)
     }
@@ -82,7 +83,7 @@ export default function Products() {
               <tr key={product._id}>
                 <td>{formatId(product._id!)}</td>
                 <td>{product.name}</td>
-                <td>${product.price}</td>
+                <td>₹{product.price}</td>
                 <td>{product.category}</td>
                 <td>{product.countInStock}</td>
                 <td>{product.rating}</td>

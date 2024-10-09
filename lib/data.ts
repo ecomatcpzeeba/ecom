@@ -97,7 +97,42 @@ const data = {
       countInStock: 20,
       description: 'A popular pants',
     },
+    {
+      name: 'Blue Leggings',
+      slug: 'blue-leggings',
+      category: 'Leggings',
+      image: '/images/pants3.png',
+      price: 299,
+      brand: 'Cpzeeba',
+      rating: 2.4,
+      numReviews: 14,
+      countInStock: 20,
+      description: 'A popular pants',
+      colors: [
+        {
+          name: 'Red',
+          colorCode: '#FF0000',
+          link: 'https://cpzeeba.com/product/blue-leggings',
+        },
+        {
+          name: 'Green',
+          colorCode: '#00FF00',
+          link: 'https://cpzeeba.com/product/blue-leggings',
+        },
+        {
+          name: 'Blue',
+          colorCode: '#0000FF',
+          link: 'https://cpzeeba.com/product/blue-leggings',
+        },
+      ],
+      sizes: [
+        { size: 'S', countInStock: 20 },
+        { size: 'M', countInStock: 20 },
+        { size: 'L', countInStock: 20 },
+        { size: 'XL', countInStock: 20 },
+        { size: 'XXL', countInStock: 20 },
+        { size: 'XXXL', countInStock: 20 },
+      ],
+    },
   ],
 }
-
-export default data

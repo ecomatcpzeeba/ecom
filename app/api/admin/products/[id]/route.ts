@@ -11,7 +11,7 @@ export const GET = auth(async (...args: any) => {
 
   const product = await ProductModel.findById(params.id)
   if (!product) {
-    return Response.json({ message: 'Product not founc' }, { status: 404 })
+    return Response.json({ message: 'Product not found' }, { status: 404 })
   }
   return Response.json(product)
 }) as any
@@ -31,6 +31,8 @@ export const PUT = auth(async (...args: any) => {
     brand,
     countInStock,
     description,
+    colors,
+    sizes,
   } = await req.json()
 
   try {
@@ -46,7 +48,8 @@ export const PUT = auth(async (...args: any) => {
       product.brand = brand
       product.countInStock = countInStock
       product.description = description
-
+      product.colors = colors
+      product.sizes = sizes
       const updateProduct = await product.save()
       return Response.json(updateProduct)
     } else {

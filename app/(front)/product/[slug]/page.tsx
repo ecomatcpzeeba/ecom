@@ -29,6 +29,7 @@ export default async function ProductDetails({
   if (!product) {
     return <div> Product Not found!</div>
   }
+
   return (
     <>
       <div className="my-2">
