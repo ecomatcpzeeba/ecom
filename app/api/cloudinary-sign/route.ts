@@ -18,30 +18,37 @@ export const POST = auth(async (req: any) => {
   return NextResponse.json({ signature, timestamp })
 }) as any
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === 'DELETE') {
-    const { publicId } = req.body
+// DELETE request handler
+export const DELETE = async (req: Request) => {
+  const reqBody = await req.json() // Parse the request body
+  const { publicId } = reqBody
 
-    if (!publicId) {
-      return res.status(400).json({ message: 'Public ID is required' })
-    }
+  if (!publicId) {
+    return NextResponse.json(
+      { message: 'Public ID is required' },
+      { status: 400 }
+    )
+  }
 
-    try {
-      const result = await cloudinary.v2.uploader.destroy(publicId)
-      if (result.result === 'ok') {
-        return res.status(200).json({ message: 'Image deleted successfully' })
-      } else {
-        return res.status(500).json({ message: 'Failed to delete image' })
-      }
-    } catch (error) {
-      console.error('Error deleting image:', error)
-      return res.status(500).json({ message: 'Error deleting image' })
+  try {
+    const result = await cloudinary.v2.uploader.destroy(publicId)
+
+    if (result.result === 'ok') {
+      return NextResponse.json(
+        { message: 'Image deleted successfully' },
+        { status: 200 }
+      )
+    } else {
+      return NextResponse.json(
+        { message: 'Failed to delete image' },
+        { status: 500 }
+      )
     }
-  } else {
-    res.setHeader('Allow', ['DELETE'])
-    return res.status(405).end(`Method ${req.method} Not Allowed`)
+  } catch (error) {
+    console.error('Error deleting image:', error)
+    return NextResponse.json(
+      { message: 'Error deleting image' },
+      { status: 500 }
+    )
   }
 }
