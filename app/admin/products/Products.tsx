@@ -44,7 +44,6 @@ export default function Products() {
       })
       const data = await res.json()
       if (!res.ok) return toast.error(data.message)
-      console.log(data.message)
       toast.success('Product created successfully')
       router.push(`/admin/products/${data.product._id}`)
     }
