@@ -34,6 +34,8 @@ const data = {
       description: 'A popular shirt',
       isFeatured: true,
       banner: '/images/banner1.jpg',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Fit Shirt',
@@ -48,6 +50,8 @@ const data = {
       description: 'A popular shirt',
       isFeatured: true,
       banner: '/images/banner2.png',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Slim Shirt',
@@ -60,6 +64,8 @@ const data = {
       numReviews: 3,
       countInStock: 20,
       description: 'A popular shirt',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Golf Pants',
@@ -72,6 +78,8 @@ const data = {
       numReviews: 13,
       countInStock: 20,
       description: 'Smart looking pants',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Fit Pants',
@@ -84,6 +92,8 @@ const data = {
       numReviews: 7,
       countInStock: 20,
       description: 'A popular pants',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Classic Pants',
@@ -96,6 +106,8 @@ const data = {
       numReviews: 14,
       countInStock: 20,
       description: 'A popular pants',
+      colors: 'Black',
+      sizes: 'XL',
     },
     {
       name: 'Blue Leggings',
