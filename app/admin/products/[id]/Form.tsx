@@ -116,7 +116,9 @@ export default function ProductEditForm({ productId }: { productId: string }) {
             {...register('slug', { required: true })}
             className="w-full border p-2"
           />
-          {errors.slug && <span className="text-red-500">Slug is require</span>}
+          {errors.slug && (
+            <span className="text-red-500">Slug is required</span>
+          )}
         </div>
 
         <div className="md:flex mb-6">
