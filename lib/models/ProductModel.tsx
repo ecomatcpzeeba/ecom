@@ -16,6 +16,9 @@ const productSchema = new mongoose.Schema(
     sizes: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
     banner: String,
+    isDiscounted: { type: Boolean, default: false },
+    discountPercent: { type: Number, required: true, default: 0 },
+    discountValue: { type: Number, required: true, default: 0 },
   },
   {
     timestamps: true,
@@ -42,4 +45,7 @@ export type Product = {
   countInStock: number
   colors: string
   sizes: string
+  isDiscounted?: boolean
+  discountPercent?: number
+  discountValue?: number
 }

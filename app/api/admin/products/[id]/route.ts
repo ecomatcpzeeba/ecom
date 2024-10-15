@@ -33,6 +33,9 @@ export const PUT = auth(async (...args: any) => {
     description,
     colors,
     sizes,
+    isDiscounted,
+    discountPercent,
+    discountValue,
   } = await req.json()
 
   try {
@@ -50,6 +53,10 @@ export const PUT = auth(async (...args: any) => {
       product.description = description
       product.colors = colors
       product.sizes = sizes
+      product.isDiscounted = isDiscounted
+      product.discountPercent = discountPercent
+      product.discountValue = discountValue
+      console.log(product)
       const updateProduct = await product.save()
       return Response.json(updateProduct)
     } else {
@@ -57,6 +64,56 @@ export const PUT = auth(async (...args: any) => {
     }
   } catch (err: any) {
     return Response.json({ message: err.message }, { status: 500 })
+  }
+}) as any
+
+export const POST = auth(async (...args: any) => {
+  const [req, { params }] = args
+
+  if (!req.auth || !req.auth.user?.isAdmin) {
+    return Response.json({ message: 'unauthorized' }, { status: 401 })
+  }
+
+  // Parse the body of the request
+  const { isDiscounted, discountPercent, discountedPrice } = await req.json()
+
+  // Validate incoming data
+  if (
+    typeof isDiscounted !== 'boolean' ||
+    typeof discountPercent !== 'number'
+  ) {
+    return Response.json({ message: 'Invalid data' }, { status: 400 })
+  }
+
+  try {
+    // Connect to the database if not already connected
+    await dbConnect()
+
+    // Update the product with discount data
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      params.productId,
+      {
+        isDiscounted,
+        discountPercent,
+        discountedPrice: discountedPrice || null, // Handle null case
+      },
+      { new: true }
+    )
+
+    // If product is not found
+    if (!updatedProduct) {
+      return Response.json({ message: 'Product not found' }, { status: 404 })
+    }
+
+    return Response.json(
+      { message: 'Product updated with discount', product: updatedProduct },
+      { status: 200 }
+    )
+  } catch (error) {
+    return Response.json(
+      { message: 'Error updating product', error },
+      { status: 500 }
+    )
   }
 }) as any
 

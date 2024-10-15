@@ -7,16 +7,15 @@ export default function TermsCondition() {
         <h1 className="text-bold text-4xl text-center m-4">
           Terms and Conditions
         </h1>
-        <p className="my-4 font-bold">Last updated on Jul 17th 2024</p>
+        <p className="my-4 font-bold">Last updated on Aug 9 2024</p>
         <p className="">
-          For the purpose of these Terms and Conditions, The term
-          &ldquot;we&rdquot;, &ldquot;us&rdquot;, "our" used anywhere on this
-          page shall mean CHENNAI PLAZA, whose registered/operational office is
-          FIRST FLOOR, NO. 277/30, PYCROFT ROAD, TRIPLICANE, Chennai, Tamil
-          Nadu, 600005 Chennai TAMIL NADU 600005 . &ldquot;you&rdquot;,
-          &ldquot;your&rdquot;, &ldquot;user&rdquot;, &ldquot;visitor&rdquot;
-          shall mean any natural or legal person who is visiting our website
-          and/or agreed to purchase from us.
+          For the purpose of these Terms and Conditions, The term "we", "us",
+          "our" used anywhere on this page shall mean CHENNAI PLAZA, whose
+          registered/operational office is FIRST FLOOR, NO. 277/30, PYCROFT
+          ROAD, TRIPLICANE, Chennai, Tamil Nadu, 600005 Chennai TAMIL NADU
+          600005 . "you", “your”, "user", “visitor” shall mean any natural or
+          legal person who is visiting our website and/or agreed to purchase
+          from us.
         </p>
 
         <p className="my-4 font-bold">
@@ -27,12 +26,6 @@ export default function TermsCondition() {
           <li>
             The content of the pages of this website is subject to change
             without notice.
-          </li>
-          <li>
-            CHENNAI PLAZA does not accept cancellation requests for perishable
-            items like flowers, eatables etc. However, refund/replacement can be
-            made if the customer establishes that the quality of product
-            delivered is not good.
           </li>
           <li>
             Neither we nor any third parties provide any warranty or guarantee
@@ -72,7 +65,7 @@ export default function TermsCondition() {
           </li>
           <li>
             You may not create a link to our website from another website or
-            document without CHENNAI PLAZA&apos;s prior written consent.
+            document without CHENNAI PLAZA’s prior written consent.
           </li>
           <li>
             Any dispute arising out of use of our website and/or purchase with

@@ -24,9 +24,9 @@ export default function ProductEditForm({ productId }: { productId: string }) {
         body: JSON.stringify(arg),
       })
       const data = await res.json()
+      console.log(data)
       if (!res.ok) return toast.error(data.message)
       toast.success('Product updated successfully')
-      router.push('/admin/products')
     }
   )
 
@@ -34,8 +34,15 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
-  } = useForm<Product>()
+  } = useForm<Product>({
+    defaultValues: {
+      isDiscounted: false,
+      discountPercent: 0,
+    },
+  })
+  const isDiscounted = watch('isDiscounted', false)
 
   const handleSingleImageUpload = async (e: any) => {
     const toastId = toast.loading('Uploading image...')
@@ -82,10 +89,21 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       setValue('description', product.description)
       setValue('colors', product.colors)
       setValue('sizes', product.sizes)
+      setValue('isDiscounted', product.isDiscounted)
+      setValue('discountPercent', product.discountPercent)
+      setValue('discountValue', product.discountValue)
     }
   }, [product, setValue])
 
   const onSubmit = async (formData: any) => {
+    if (formData.isDiscounted && formData.discountPercent > 0) {
+      const discounted =
+        formData.price - (formData.price * formData.discountPercent) / 100
+      formData.discountedPrice = discounted
+    } else {
+      formData.discountedPrice = formData.price
+    }
+
     await updateProduct(formData)
   }
 
@@ -155,6 +173,32 @@ export default function ProductEditForm({ productId }: { productId: string }) {
             <span className="text-red-500">Price is required</span>
           )}
         </div>
+
+        {/* Discount Percentage */}
+        <div className="mb-4">
+          <label>Is Discounted?</label>
+          <input
+            type="checkbox"
+            {...register('isDiscounted')}
+            className="ml-2"
+          />
+        </div>
+
+        {isDiscounted && (
+          <>
+            <div className="mb-4">
+              <label>Discount Percentage</label>
+              <input
+                type="number"
+                {...register('discountPercent', { required: isDiscounted })}
+                className="w-full border p-2"
+              />
+              {errors.discountPercent && (
+                <span className="text-red-500">Discount is required</span>
+              )}
+            </div>
+          </>
+        )}
 
         <div className="mb-4">
           <label>Category</label>
