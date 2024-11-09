@@ -1,20 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
+import HomePageCarousel from '@/components/products/HomePageCarousel'
 import ProductItems from '@/components/products/ProductItems'
 import productService from '@/lib/services/productServices'
 import { convertDocToObj } from '@/lib/utils'
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { Product } from '@/lib/models/ProductModel'
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || 'CP zeeba',
   description:
     process.env.NEXT_PUBLIC_APP_DESC ||
-    'This is the descrption of this website',
+    'This is the description of this website',
 }
 
 export default async function Home() {
-  const featuredProducts = await productService.getFeatured()
-  const latestProducts = await productService.getLatest()
+  const featuredProducts: Product[] = await productService.getFeatured()
+  const latestProducts: Product[] = await productService.getLatest()
+
   return (
     <>
       <div className="w-full carousel rounded-box mt-4">
@@ -48,6 +51,7 @@ export default async function Home() {
           </div>
         ))}
       </div>
+
       <h2 className="text-2xl py-2">Latest Products</h2>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         {latestProducts.map((product) => (

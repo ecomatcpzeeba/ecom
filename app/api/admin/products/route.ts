@@ -31,7 +31,10 @@ export const POST = auth(async (req: any) => {
     colors: 'Black',
     sizes: 'XL',
     isDiscounted: true,
-    discountPercent: '0',
+    discountPercent: 0,
+    isFeatured: false,
+    banner:
+      'https://res.cloudinary.com/doeqt3wfr/image/upload/v1731129832/cv0o9rdvfms4vigszlml.png',
   })
   try {
     await product.save()

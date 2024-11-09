@@ -36,6 +36,8 @@ export const PUT = auth(async (...args: any) => {
     isDiscounted,
     discountPercent,
     discountValue,
+    isFeatured,
+    banner,
   } = await req.json()
 
   try {
@@ -56,8 +58,11 @@ export const PUT = auth(async (...args: any) => {
       product.isDiscounted = isDiscounted
       product.discountPercent = discountPercent
       product.discountValue = discountValue
-      console.log(product)
+      product.isFeatured = isFeatured
+      product.banner = banner
+
       const updateProduct = await product.save()
+      console.log('updateProduct', updateProduct)
       return Response.json(updateProduct)
     } else {
       return Response.json({ message: 'Product not found' }, { status: 404 })
@@ -75,7 +80,8 @@ export const POST = auth(async (...args: any) => {
   }
 
   // Parse the body of the request
-  const { isDiscounted, discountPercent, discountedPrice } = await req.json()
+  const { isDiscounted, discountPercent, discountValue, isFeatured, banner } =
+    await req.json()
 
   // Validate incoming data
   if (
@@ -83,6 +89,14 @@ export const POST = auth(async (...args: any) => {
     typeof discountPercent !== 'number'
   ) {
     return Response.json({ message: 'Invalid data' }, { status: 400 })
+  }
+
+  // Validate incoming data
+  if (
+    typeof isFeatured !== 'boolean' ||
+    (banner && typeof banner !== 'string')
+  ) {
+    return Response.json({ message: 'Invalid banner format' }, { status: 400 })
   }
 
   try {
@@ -95,7 +109,9 @@ export const POST = auth(async (...args: any) => {
       {
         isDiscounted,
         discountPercent,
-        discountedPrice: discountedPrice || null, // Handle null case
+        discountValue: discountValue || null, // Handle null case
+        isFeatured,
+        banner,
       },
       { new: true }
     )

@@ -9,7 +9,10 @@ export const revalidate = 3600 //the cache value will be updated every 1 hour
 
 const getLatest = cache(async () => {
   await dbConnect()
-  const products = await ProductModel.find({}).sort({ _id: -1 }).limit(8).lean() //sort based in id in deccending order so we call the latest product first, limit 4 to get first 4 results only and use lean to convert result to plain javascript
+  const products = await ProductModel.find({})
+    .sort({ _id: -1 })
+    .limit(20)
+    .lean() //sort based in id in deccending order so we call the latest product first, limit 4 to get first 4 results only and use lean to convert result to plain javascript
   return products as Product[]
 })
 
@@ -118,11 +121,24 @@ const getCategories = cache(async () => {
   const categories = await ProductModel.find().distinct('category')
   return categories
 })
+
+const getLatestByCategory = cache(async (category: string) => {
+  await dbConnect()
+
+  const products = await ProductModel.find({ category }) // Filter by category
+    .sort({ _id: -1 }) // Sort by ID in descending order
+    .limit(5) // Limit to the last 5 products
+    .lean() // Convert to plain JavaScript objects
+
+  return products as Product[] // Return products
+})
+
 const productService = {
   getLatest,
   getFeatured,
   getBySlug,
   getByQuery,
   getCategories,
+  getLatestByCategory,
 }
 export default productService

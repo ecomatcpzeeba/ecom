@@ -24,9 +24,9 @@ export default function ProductEditForm({ productId }: { productId: string }) {
         body: JSON.stringify(arg),
       })
       const data = await res.json()
-      console.log(data)
       if (!res.ok) return toast.error(data.message)
       toast.success('Product updated successfully')
+      router.push('/admin/products')
     }
   )
 
@@ -39,10 +39,13 @@ export default function ProductEditForm({ productId }: { productId: string }) {
   } = useForm<Product>({
     defaultValues: {
       isDiscounted: false,
-      discountPercent: 0,
+      discountPercent: 30,
+      isFeatured: false,
+      banner: '',
     },
   })
   const isDiscounted = watch('isDiscounted', false)
+  const isFeatured = watch('isFeatured', false)
 
   const handleSingleImageUpload = async (e: any) => {
     const toastId = toast.loading('Uploading image...')
@@ -76,6 +79,47 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       })
     }
   }
+  const handleSingleBannerUpload = async (e: any) => {
+    const toastId = toast.loading('Uploading image...')
+    try {
+      const resSign = await fetch('/api/cloudinary-sign', {
+        method: 'POST',
+      })
+      const { signature, timestamp } = await resSign.json()
+      const file = e.target.files[0] // FileList, we need the first file.
+
+      if (!file) {
+        toast.error('No file selected', { id: toastId })
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('signature', signature)
+      formData.append('timestamp', timestamp)
+      formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!)
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      )
+
+      const data = await res.json()
+      if (res.ok) {
+        const bannerUrl = data.secure_url // Cloudinary's response contains the secure_url
+
+        setValue('banner', bannerUrl) // Set banner to the URL of the uploaded image
+        toast.success('File uploaded successfully', { id: toastId })
+      } else {
+        toast.error('Error uploading image', { id: toastId })
+      }
+    } catch (err: any) {
+      toast.error(err.message, { id: toastId })
+    }
+  }
 
   useEffect(() => {
     if (product) {
@@ -92,6 +136,8 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       setValue('isDiscounted', product.isDiscounted)
       setValue('discountPercent', product.discountPercent)
       setValue('discountValue', product.discountValue)
+      setValue('isFeatured', product.isFeatured)
+      setValue('banner', product.banner)
     }
   }, [product, setValue])
 
@@ -99,9 +145,9 @@ export default function ProductEditForm({ productId }: { productId: string }) {
     if (formData.isDiscounted && formData.discountPercent > 0) {
       const discounted =
         formData.price - (formData.price * formData.discountPercent) / 100
-      formData.discountedPrice = discounted
+      formData.discountValue = discounted
     } else {
-      formData.discountedPrice = formData.price
+      formData.discountValue = formData.price
     }
 
     await updateProduct(formData)
@@ -173,15 +219,13 @@ export default function ProductEditForm({ productId }: { productId: string }) {
             <span className="text-red-500">Price is required</span>
           )}
         </div>
-
-        {/* Discount Percentage */}
         <div className="mb-4">
-          <label>Is Discounted?</label>
           <input
             type="checkbox"
             {...register('isDiscounted')}
-            className="ml-2"
+            className="border m-2"
           />
+          <label>Discounted?</label>
         </div>
 
         {isDiscounted && (
@@ -190,11 +234,47 @@ export default function ProductEditForm({ productId }: { productId: string }) {
               <label>Discount Percentage</label>
               <input
                 type="number"
-                {...register('discountPercent', { required: isDiscounted })}
+                {...register('discountPercent')}
                 className="w-full border p-2"
               />
               {errors.discountPercent && (
                 <span className="text-red-500">Discount is required</span>
+              )}
+            </div>
+          </>
+        )}
+        <div className="mb-4">
+          {product.banner && (
+            <Image
+              src={product.banner}
+              alt="Product Image"
+              className="w-32 h-32 mb-4"
+              width={48}
+              height={48}
+            />
+          )}
+          <input
+            type="checkbox"
+            {...register('isFeatured')}
+            className="border m-2"
+          />
+          <label>Featured Banner</label>
+        </div>
+
+        {isFeatured && (
+          <>
+            <label className="label md:w-1/5" htmlFor="bannerFile">
+              Upload Banner
+            </label>
+            <div className="md:w-4/5">
+              <input
+                type="file"
+                className="file-input w-full max-w-md"
+                id="bannerFile"
+                onChange={(e) => handleSingleBannerUpload(e)}
+              />
+              {errors.banner && (
+                <span className="text-red-500">Banner is required</span>
               )}
             </div>
           </>

@@ -15,10 +15,10 @@ const productSchema = new mongoose.Schema(
     colors: { type: String, required: true },
     sizes: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
-    banner: String,
+    banner: { type: String, required: false },
     isDiscounted: { type: Boolean, default: false },
-    discountPercent: { type: Number, required: true, default: 0 },
-    discountValue: { type: Number, required: true, default: 0 },
+    discountPercent: { type: Number, default: 0 },
+    discountValue: { type: Number, default: 0 },
   },
   {
     timestamps: true,
@@ -35,6 +35,7 @@ export type Product = {
   name: string
   slug: string
   image: string
+  isFeatured?: boolean
   banner?: string
   price: number
   brand: string
