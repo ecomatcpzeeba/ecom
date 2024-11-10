@@ -30,10 +30,15 @@ export default async function ProductDetails({
     return <div> Product Not found!</div>
   }
 
+  const allProducts = await productService.getProductByCategory(
+    product.category,
+    product.name
+  )
+
   return (
     <>
       <div className="my-2">
-        <Link href="/">back to products</Link>
+        <Link href="/">Back to products</Link>
       </div>
       <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
@@ -61,6 +66,23 @@ export default async function ProductDetails({
               />
             </li>
             <li> {product.brand}</li>
+            <li>
+              <ul className="flex justify-center">
+                {allProducts.map((x) => (
+                  <li key={x._id} className="bg-gray-300">
+                    <Link href={`/product/${x.slug}`}>
+                      <Image
+                        src={x.image}
+                        alt={x.name}
+                        width={58}
+                        height={58}
+                        className="rounded-full m-2"
+                      ></Image>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
             <li>
               <div className="divider"></div>
             </li>

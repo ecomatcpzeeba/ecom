@@ -22,6 +22,17 @@ const getFeatured = cache(async () => {
   return products as Product[]
 })
 
+const getProductByCategory = cache(async (category: string, name: string) => {
+  await dbConnect()
+  const products = await ProductModel.find({
+    category: category,
+    name: { $ne: name },
+  })
+    .limit(5)
+    .lean()
+  return products as Product[]
+})
+
 const getBySlug = cache(async (slug: string) => {
   await dbConnect()
   const product = await ProductModel.findOne({ slug }).lean()
@@ -140,5 +151,6 @@ const productService = {
   getByQuery,
   getCategories,
   getLatestByCategory,
+  getProductByCategory,
 }
 export default productService
