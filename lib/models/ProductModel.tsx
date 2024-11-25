@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 
+export const SizeSchema = new mongoose.Schema({
+  countInStock: { type: Number, required: true, default: 0 },
+  size: { type: String, required: true },
+})
+
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -19,6 +24,7 @@ const productSchema = new mongoose.Schema(
     isDiscounted: { type: Boolean, default: false },
     discountPercent: { type: Number, default: 0 },
     discountValue: { type: Number, default: 0 },
+    size: { type: [SizeSchema], required: true },
   },
   {
     timestamps: true,
@@ -49,4 +55,5 @@ export type Product = {
   isDiscounted?: boolean
   discountPercent?: number
   discountValue?: number
+  size: Array<{ size: string; countInStock: number }>
 }

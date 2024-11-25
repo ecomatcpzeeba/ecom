@@ -2,6 +2,11 @@ import { auth } from '@/lib/auth'
 import dbConnect from '@/lib/dbConnect'
 import ProductModel from '@/lib/models/ProductModel'
 
+type Size = {
+  size: string
+  countInStock: number
+}
+
 export const GET = auth(async (...args: any) => {
   const [req, { params }] = args
   if (!req.auth || !req.auth.user?.isAdmin) {
@@ -38,6 +43,7 @@ export const PUT = auth(async (...args: any) => {
     discountValue,
     isFeatured,
     banner,
+    size,
   } = await req.json()
 
   try {
@@ -60,9 +66,9 @@ export const PUT = auth(async (...args: any) => {
       product.discountValue = discountValue
       product.isFeatured = isFeatured
       product.banner = banner
+      product.size = size || []
 
       const updateProduct = await product.save()
-      console.log('updateProduct', updateProduct)
       return Response.json(updateProduct)
     } else {
       return Response.json({ message: 'Product not found' }, { status: 404 })
@@ -79,11 +85,9 @@ export const POST = auth(async (...args: any) => {
     return Response.json({ message: 'unauthorized' }, { status: 401 })
   }
 
-  // Parse the body of the request
   const { isDiscounted, discountPercent, discountValue, isFeatured, banner } =
     await req.json()
 
-  // Validate incoming data
   if (
     typeof isDiscounted !== 'boolean' ||
     typeof discountPercent !== 'number'
@@ -91,7 +95,6 @@ export const POST = auth(async (...args: any) => {
     return Response.json({ message: 'Invalid data' }, { status: 400 })
   }
 
-  // Validate incoming data
   if (
     typeof isFeatured !== 'boolean' ||
     (banner && typeof banner !== 'string')
@@ -100,23 +103,20 @@ export const POST = auth(async (...args: any) => {
   }
 
   try {
-    // Connect to the database if not already connected
     await dbConnect()
 
-    // Update the product with discount data
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       params.productId,
       {
         isDiscounted,
         discountPercent,
-        discountValue: discountValue || null, // Handle null case
+        discountValue: discountValue || null,
         isFeatured,
         banner,
       },
       { new: true }
     )
 
-    // If product is not found
     if (!updatedProduct) {
       return Response.json({ message: 'Product not found' }, { status: 404 })
     }

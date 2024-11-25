@@ -2,7 +2,7 @@
 import useSWRMutation from 'swr/mutation'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { Product } from '@/lib/models/ProductModel'
 import { formatId } from '@/lib/utils'
@@ -33,6 +33,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
   const {
     register,
     handleSubmit,
+    control,
     setValue,
     watch,
     formState: { errors },
@@ -42,8 +43,15 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       discountPercent: 30,
       isFeatured: false,
       banner: '',
+      size: [],
     },
   })
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'size', // Name of the sizes array in the form
+  })
+
   const isDiscounted = watch('isDiscounted', false)
   const isFeatured = watch('isFeatured', false)
 
@@ -138,6 +146,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       setValue('discountValue', product.discountValue)
       setValue('isFeatured', product.isFeatured)
       setValue('banner', product.banner)
+      setValue('size', product.size || [])
     }
   }, [product, setValue])
 
@@ -350,6 +359,44 @@ export default function ProductEditForm({ productId }: { productId: string }) {
           {errors.sizes && (
             <span className="text-red-500">Size is required</span>
           )}
+        </div>
+        {/* Sizes Management */}
+        <div className="mb-4">
+          <h3 className="text-xl mb-2">Sizes</h3>
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex items-center mb-2">
+              <input
+                type="text"
+                {...register(`size.${index}.size` as const, { required: true })}
+                defaultValue={field.size}
+                placeholder="Size"
+                className="border p-2 mr-2 w-1/3"
+              />
+              <input
+                type="number"
+                {...register(`size.${index}.countInStock` as const, {
+                  required: true,
+                })}
+                defaultValue={field.countInStock}
+                placeholder="Count In Stock"
+                className="border p-2 mr-2 w-1/3"
+              />
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="text-red-500 font-bold"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => append({ size: '', countInStock: 0 })}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Add Size
+          </button>
         </div>
 
         {/* Submit Button */}

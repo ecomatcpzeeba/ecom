@@ -52,6 +52,28 @@ const data = {
       banner: '/images/banner2.png',
       colors: 'Black',
       sizes: 'XL',
+      size: [
+        {
+          countInStock: 20,
+          size: 'S',
+        },
+        {
+          countInStock: 20,
+          size: 'L',
+        },
+        {
+          countInStock: 20,
+          size: 'XL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+      ],
     },
     {
       name: 'Slim Shirt',
@@ -80,6 +102,28 @@ const data = {
       description: 'Smart looking pants',
       colors: 'Black',
       sizes: 'XL',
+      size: [
+        {
+          countInStock: 20,
+          size: 'S',
+        },
+        {
+          countInStock: 20,
+          size: 'L',
+        },
+        {
+          countInStock: 20,
+          size: 'XL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+      ],
     },
     {
       name: 'Fit Pants',
@@ -94,6 +138,28 @@ const data = {
       description: 'A popular pants',
       colors: 'Black',
       sizes: 'XL',
+      size: [
+        {
+          countInStock: 20,
+          size: 'S',
+        },
+        {
+          countInStock: 20,
+          size: 'L',
+        },
+        {
+          countInStock: 20,
+          size: 'XL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+      ],
     },
     {
       name: 'Classic Pants',
@@ -122,6 +188,28 @@ const data = {
       description: 'A popular pants',
       colors: 'Black',
       sizes: 'XL',
+      size: [
+        {
+          countInStock: 20,
+          size: 'S',
+        },
+        {
+          countInStock: 20,
+          size: 'L',
+        },
+        {
+          countInStock: 20,
+          size: 'XL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+        {
+          countInStock: 20,
+          size: 'XXL',
+        },
+      ],
     },
   ],
 }

@@ -35,6 +35,11 @@ export const POST = auth(async (req: any) => {
     isFeatured: false,
     banner:
       'https://res.cloudinary.com/doeqt3wfr/image/upload/v1731129832/cv0o9rdvfms4vigszlml.png',
+    size: [
+      { size: 'M', countInStock: 30 },
+      { size: 'L', countInStock: 5 },
+      { size: 'XL', countInStock: 15 },
+    ],
   })
   try {
     await product.save()
