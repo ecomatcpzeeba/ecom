@@ -52,28 +52,6 @@ const data = {
       banner: '/images/banner2.png',
       colors: 'Black',
       sizes: 'XL',
-      size: [
-        {
-          countInStock: 20,
-          size: 'S',
-        },
-        {
-          countInStock: 20,
-          size: 'L',
-        },
-        {
-          countInStock: 20,
-          size: 'XL',
-        },
-        {
-          countInStock: 20,
-          size: 'XXL',
-        },
-        {
-          countInStock: 20,
-          size: 'XXL',
-        },
-      ],
     },
     {
       name: 'Slim Shirt',
@@ -98,10 +76,8 @@ const data = {
       brand: 'Oliver',
       rating: 2.9,
       numReviews: 13,
-      countInStock: 20,
       description: 'Smart looking pants',
       colors: 'Black',
-      sizes: 'XL',
       size: [
         {
           countInStock: 20,

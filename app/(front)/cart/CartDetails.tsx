@@ -30,6 +30,7 @@ export default function CartDetails() {
               <thead>
                 <tr>
                   <th>Item</th>
+                  <th>Size</th>
                   <th>Quantity</th>
                   <th>Price</th>
                 </tr>
@@ -51,6 +52,7 @@ export default function CartDetails() {
                         <span className="px-2">{item.name}</span>
                       </Link>
                     </td>
+                    <td>{item.size}</td>
                     <td>
                       <button
                         className="btn"

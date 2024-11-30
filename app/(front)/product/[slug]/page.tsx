@@ -35,6 +35,12 @@ export default async function ProductDetails({
     product.name
   )
 
+  const isSingleSize = typeof product.sizes === 'string'
+  const isAvailable =
+    (product.countInStock > 0 && product.sizes.length > 0) ||
+    (Array.isArray(product.size) &&
+      product.size.some((s) => s.countInStock > 0))
+
   return (
     <>
       <div className="my-2">
@@ -100,22 +106,13 @@ export default async function ProductDetails({
               </div>
               <div className="mb-2 flex justify-between">
                 <div>Status</div>
-                <div>
-                  {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
-                </div>
+                <div>{isAvailable ? 'In stock' : 'Unavailable'}</div>
               </div>
-              {product.countInStock !== 0 && (
-                <div className="card-actions justify-center">
-                  <AddToCart
-                    item={{
-                      ...convertDocToObj(product), //only plain objects can be passed to client components
-                      qty: 0,
-                      color: '',
-                      size: '',
-                    }}
-                  />
-                </div>
-              )}
+
+              <AddToCart
+                sizes={product.size}
+                product={convertDocToObj(product)}
+              />
             </div>
           </div>
         </div>
