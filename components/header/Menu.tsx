@@ -29,7 +29,7 @@ const Menu = () => {
 
   return (
     <div>
-      <div className="hidden md:block">
+      <div className="hidden md:block lg:block xl:block xxl:block ">
         <SearchBox />
       </div>
       <ul className="flex items-stretch">
@@ -45,7 +45,7 @@ const Menu = () => {
 
               {/* sun icon */}
               <svg
-                className="swap-on fill-current w-10 h-10"
+                className="swap-on fill-current w-8 h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -54,7 +54,7 @@ const Menu = () => {
 
               {/* moon icon */}
               <svg
-                className="swap-off fill-current w-10 h-10"
+                className="swap-off fill-current w-8 h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -63,16 +63,16 @@ const Menu = () => {
             </label>
           )}
         </i>
-        <li>
+        <li className="xs:hidden xxs:hidden s:hidden">
           <Link className="btn btn-ghost rounded-btn" href="/Contact-Us">
             Contact
           </Link>
         </li>
         <li>
-          <Link className="btn btn-ghost rounded-btn" href="/cart">
+          <Link className="btn btn-ghost rounded-btn xs:p-2" href="/cart">
             Cart
             {mounted && items.length != 0 && (
-              <div className="badge badge-secondary">
+              <div className="badge badge-secondary xs:text-xs">
                 {items.reduce((a, c) => a + c.qty, 0)}
               </div>
             )}
@@ -82,7 +82,10 @@ const Menu = () => {
           <>
             <li>
               <div className="dropdown dropdown-bottom dropdown-end">
-                <label tabIndex={0} className="btn btn-ghost rounded-btn">
+                <label
+                  tabIndex={0}
+                  className="btn btn-ghost rounded-btn xs:p-2"
+                >
                   {session.user.name}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +93,7 @@ const Menu = () => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="w-4 h-4"
                   >
                     <path
                       strokeLinecap="round"
@@ -101,7 +104,7 @@ const Menu = () => {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52 "
+                  className="menu dropdown-content z-[1] shadow bg-base-300 rounded-box w-52"
                 >
                   {session.user.isAdmin && (
                     <li onClick={handleClick}>

@@ -18,6 +18,9 @@ type Product = {
   image: string
   sizes: SizeOption[]
   countInStock: number
+  discountPercent?: number
+  discountValue?: number
+  isDiscounted?: boolean
 }
 
 type SizeSelectorProps = {
@@ -30,6 +33,8 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
   const [quantity, setQuantity] = useState(1) // Quantity for the selected size.
   const [existItem, setExistItem] = useState<OrderItem | undefined>() // Check if item exists in cart.
   const router = useRouter()
+
+  const hasDiscount = product.isDiscounted && (product.discountPercent ?? 0) > 0
 
   useEffect(() => {
     if (selectedSize) {
@@ -58,7 +63,9 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
           _id: product._id,
           name: product.name,
           slug: product.slug,
-          price: product.price,
+          price: hasDiscount
+            ? product.discountValue ?? product.price
+            : product.price,
           image: product.image,
           size: selectedSize!,
           qty: quantity,
@@ -132,6 +139,27 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
           <span className="font-semibold">{selectedSize}</span>
         </p>
       )}
+
+      <div className="mt-4">
+        <p className="text-lg">
+          Price:{' '}
+          {hasDiscount ? (
+            <span>
+              <span className="text-gray-500 line-through mr-2">
+                ₹ {product.price}
+              </span>
+              <span className="text-red-600 font-bold">
+                ₹ {product.discountValue?.toFixed(2)}
+              </span>
+              <span className="text-sm text-red-500 ml-2">
+                ({product.discountPercent}% OFF)
+              </span>
+            </span>
+          ) : (
+            <span>₹ {product.price}</span>
+          )}
+        </p>
+      </div>
 
       <div className="flex items-center gap-4 mt-4">
         <button

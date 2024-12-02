@@ -23,7 +23,10 @@ const Header = () => {
               ></path>
             </svg>
           </label>
-          <Link href="/" className="btn btn-ghost text-lg">
+          <Link
+            href="/"
+            className="btn btn-ghost xs:p-1 xxs:p-1 s:p-1 text-lg xs:text-base s:text-base xxs:text-base sm:text-sm"
+          >
             CPZeeba.com
           </Link>
           <Menu />

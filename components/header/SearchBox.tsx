@@ -19,7 +19,7 @@ export const SearchBox = () => {
         <select
           name="category"
           defaultValue={category}
-          className="join-item select select-bordered"
+          className="join-item select select-bordered w-20"
         >
           <option value="all">All</option>
           {categories.map((c: string) => (
@@ -27,7 +27,7 @@ export const SearchBox = () => {
           ))}
         </select>
         <input
-          className="join-item input input-bordered w-48"
+          className="join-item input input-bordered w-36"
           placeholder="Search"
           defaultValue={q}
           name={q}

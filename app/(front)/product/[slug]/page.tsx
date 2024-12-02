@@ -41,22 +41,23 @@ export default async function ProductDetails({
     (Array.isArray(product.size) &&
       product.size.some((s) => s.countInStock > 0))
 
+  const hasDiscount = product.isDiscounted && (product.discountPercent ?? 0) > 0
+
   return (
     <>
       <div className="my-2">
         <Link href="/">Back to products</Link>
       </div>
-      <div className="grid md:grid-cols-4 md:gap-3">
-        <div className="md:col-span-2">
+      <div className="grid xxl:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 lg:gap-3 xl:gap-3 xxl:gap-3 md:grid-cols-4 md:gap-3">
+        <div className="md:col-span-2 xl:col-span-2 xxl:col-span-2 lg:col-span-2">
           <Image
             src={product.image}
             alt={product.name}
             width={640}
-            height={640}
+            height={320}
             sizes="100vw"
             style={{
               width: '100%',
-              height: 'auto',
             }}
           ></Image>
         </div>
@@ -96,13 +97,27 @@ export default async function ProductDetails({
               Description: <p>{product.description}</p>
             </li>
           </ul>
-        </div>
-        <div>
-          <div className="card  bg-base-300 shadow-xl mt-3 md:mt-0">
+          <div className="card bg-base-300 shadow-xl mt-3 md:mt-0">
             <div className="card-body">
               <div className="mb-2 flex justify-between">
                 <div>Price</div>
-                <div>₹ {product.price}</div>
+                <div>
+                  {hasDiscount ? (
+                    <div>
+                      <span className="text-lg text-gray-500 line-through">
+                        ₹ {product.price}
+                      </span>
+                      <span className="text-2xl text-red-600 font-bold ml-2">
+                        ₹ {product.discountValue?.toFixed(2)}
+                      </span>
+                      <span className="text-sm text-red-500 ml-2">
+                        ({product.discountPercent}% OFF)
+                      </span>
+                    </div>
+                  ) : (
+                    <span>₹ {product.price}</span>
+                  )}
+                </div>
               </div>
               <div className="mb-2 flex justify-between">
                 <div>Status</div>
@@ -116,6 +131,7 @@ export default async function ProductDetails({
             </div>
           </div>
         </div>
+        <div></div>
       </div>
     </>
   )

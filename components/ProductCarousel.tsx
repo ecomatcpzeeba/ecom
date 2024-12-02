@@ -25,7 +25,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
   return (
     <Slider {...settings} className="slider-container">
       {featuredProducts.map((product) => (
-        <div key={product._id} className="w-full carousel rounded-box mt-4">
+        <div key={product._id} className="w-full carousel mt-4">
           <Link href={`/product/${product.slug}`}>
             <Image
               src={product.banner as string}
