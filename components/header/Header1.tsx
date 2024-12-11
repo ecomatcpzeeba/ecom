@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import Menu from './Menu'
 import { SearchBox } from './SearchBox'
+import Image from 'next/image'
 
 const Header = () => {
   return (
@@ -25,13 +26,13 @@ const Header = () => {
           </label>
           <Link
             href="/"
-            className="btn btn-ghost xs:p-1 xxs:p-1 s:p-1 text-lg xs:text-base s:text-base xxs:text-base sm:text-sm"
+            className="btn btn-ghost s:text-base xs:text-base sm:text-base xxs:text-base lg:text-base xl:text-base xxl:text-base md:text-sm"
           >
-            CPZeeba.com
+            Cpzeeba
           </Link>
           <Menu />
         </div>
-        <div className="bg-base-300 block md:hidden text-center pb-3">
+        <div className="bg-base-300 block md:hidden lg:hidden text-center pb-3">
           <SearchBox />
         </div>
       </nav>

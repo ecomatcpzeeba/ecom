@@ -12,12 +12,12 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
   featuredProducts,
 }) => {
   const settings = {
-    speed: 500, // Slide transition speed
-    autoplay: true, // Enable autoplay
-    autoplaySpeed: 3000, // Time interval between autoplay slides
-    arrows: true, // Enable left and right arrows
-    dots: false, // Disable dots (you can set it to true if you want dots)
-    infinite: true, // Ensure infinite looping is enabled
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+    dots: false,
+    infinite: true,
     pauseOnHover: true,
     waitForAnimate: false,
   }

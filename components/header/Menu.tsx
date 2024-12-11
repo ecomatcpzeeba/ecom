@@ -32,7 +32,7 @@ const Menu = () => {
       <div className="hidden md:block lg:block xl:block xxl:block ">
         <SearchBox />
       </div>
-      <ul className="flex items-stretch">
+      <ul className="flex items-stretch s:text-xs xs:text-xs sm:text-xs xxs:text-xs lg:text-base xl:text-base xxl:text-base md:text-sm">
         <i>
           {mounted && (
             <label className="swap swap-rotate">

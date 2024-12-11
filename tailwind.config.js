@@ -1,6 +1,7 @@
-import type { Config } from 'tailwindcss'
+const { Config } = require('tailwindcss')
 
-const config: Config = {
+/** @type {Config} */
+module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -47,7 +48,6 @@ const config: Config = {
       },
     ],
   },
-  darkMode: ['class', '["dark"]'],
+  darkMode: 'class',
   plugins: [require('daisyui')],
 }
-export default config
