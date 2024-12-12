@@ -76,6 +76,11 @@ export default function Footer() {
                 Shipping and Delivery Policy
               </Link>
             </li>
+            <li>
+              <Link href="/privacy-policy" className="hover:underline">
+                Privacy Policy
+              </Link>
+            </li>
           </ul>
         </div>
         {/* Map Section */}
