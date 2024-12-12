@@ -22,7 +22,7 @@ export default async function Home() {
   return (
     <>
       <ProductCarousel featuredProducts={featuredProducts} />
-      <h2 className="text-2xl py-2">Latest Products</h2>
+      <h2 className="text-2xl p-1">Latest Products</h2>
       <div className="grid grid-cols-4 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 xxl:grid-cols-6 sm:grid-cols-3 xxs:grid-cols-2 xs:grid-cols-2 s:grid-cols-1">
         {/* Render latest products using ProductItems component */}
         {latestProducts.map((product) => (

@@ -30,7 +30,7 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({
             <Image
               src={product.banner as string}
               alt={product.name}
-              width={1500}
+              width={1700}
               height={500}
               priority
             />

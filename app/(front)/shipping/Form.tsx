@@ -66,7 +66,7 @@ const Form = () => {
   return (
     <div>
       <CheckoutSteps current={1} />
-      <div className="max-w-sm mx-auto card bg-base-300 my-4">
+      <div className="max-w-sm mx-auto card bg-base-300 my-4 px-4">
         <div className="card-body">Shipping Address</div>
         <form onSubmit={handleSubmit(formSubmit)}>
           <FormInput name="Full Name" id="fullName" required />

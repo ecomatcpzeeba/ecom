@@ -93,7 +93,7 @@ export default async function SearchPage({
     sort,
   })
   return (
-    <div className="grid md:grid-cols-5 md:gap-5">
+    <div className="grid xs:grid-cols-1 xxs:grid-cols-1 xl:grid-cols-5 xxl:grid-cols-5 lg:grid-cols-5 md:grid-cols-5 sm:grid-cols-5 gap-5">
       <div>
         <div className="text-xl pt-3"> Department</div>
         <div>
@@ -166,7 +166,7 @@ export default async function SearchPage({
           </ul>
         </div>
       </div>
-      <div className="md:col-span-4">
+      <div className="md:col-span-4 lg:col-span-4 xl:col-span-4 xxl:col-span-4 xs:col-span-4 xxs:col-span-4 sm:col-span-4">
         <div className="flex items-center justify-between py-4">
           <div className="flex items-center">
             {products.length === 0 ? 'No' : countProducts} Results
@@ -198,7 +198,7 @@ export default async function SearchPage({
           </div>
         </div>
         <div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 xxl:grid-cols-3 ">
             {products.map((product) => (
               <ProductItems key={product._id} product={product} />
             ))}

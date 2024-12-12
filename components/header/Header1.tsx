@@ -2,7 +2,6 @@ import Link from 'next/link'
 import React from 'react'
 import Menu from './Menu'
 import { SearchBox } from './SearchBox'
-import Image from 'next/image'
 
 const Header = () => {
   return (

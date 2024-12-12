@@ -7,13 +7,13 @@ import { Rating } from './Rating'
 export default function ProductItems({ product }: { product: Product }) {
   const hasDiscount = product.isDiscounted && (product.discountPercent ?? 0) > 0
   return (
-    <div className="card bg-base-300 shadow-xl mb-4 max-w-sm rounded overflow-hidden">
+    <div className="card bg-base-300 shadow-xl mb-4 max-w-sm rounded">
       <figure>
         <Link href={`/product/${product.slug}`}>
           <Image
             src={product.image}
             alt={product.name}
-            width={300}
+            width={400}
             height={300}
             className="object-cover w-full"
           />
@@ -21,7 +21,9 @@ export default function ProductItems({ product }: { product: Product }) {
       </figure>
       <div className="card-body p-2">
         <Link href={`/product/${product.slug}`}>
-          <h2 className="card-title font-normal">{product.name}</h2>
+          <h2 className="card-title font-normal xs:text-sm xxs:text-sm sm:text-base s:text-sm md:text-base lg:text-lg xl:text-lg xxl:text-lg">
+            {product.name}
+          </h2>
         </Link>
         <Rating value={product.rating} caption={`${product.numReviews}`} />
         <p className="mb-2">{product.brand}</p>

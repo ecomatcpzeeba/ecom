@@ -71,8 +71,8 @@ const Form = () => {
     <div>
       <CheckoutSteps current={4} />
 
-      <div className="grid md:grid-cols-4 md:gap-5 my-4">
-        <div className="overflow-x-auto md:col-span-3">
+      <div className="grid md:grid-cols-4 xl:grid-cols-4 xxl:grid-cols-4 lg:grid-cols-4 md:gap-5 my-4 m-5">
+        <div className="overflow-x-auto md:col-span-3 xl:col-span-3 xxl:col-span-3 lg:col-span-3 m-2">
           <div className="card bg-base-300">
             <div className="card-body">
               <h2 className="card-title">Shipping Address</h2>
