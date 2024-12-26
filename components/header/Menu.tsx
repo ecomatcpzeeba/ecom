@@ -29,7 +29,7 @@ const Menu = () => {
 
   return (
     <div>
-      <div className="block xs:hidden xxs:hidden s:hidden ">
+      <div className="block xs:hidden xxs:hidden s:hidden mx-5">
         <SearchBox />
       </div>
       <ul className="flex items-stretch s:text-xs xs:text-xs sm:text-xs xxs:text-xs lg:text-base xl:text-base xxl:text-base md:text-sm">

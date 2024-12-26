@@ -31,7 +31,7 @@ const Header = () => {
           </Link>
           <Menu />
         </div>
-        <div className="bg-base-300 block md:hidden lg:hidden text-center pb-3">
+        <div className="bg-base-300 hidden xs:block xxs:block sm:block s:block md:hidden lg:hidden text-center pb-3">
           <SearchBox />
         </div>
       </nav>

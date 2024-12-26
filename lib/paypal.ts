@@ -23,7 +23,6 @@ export const paypal = {
       }),
     })
     const data = await handleResponse(response)
-    console.log(data.id)
     return data.id
   },
   capturePayment: async function capturePayment(orderId: string) {

@@ -115,7 +115,7 @@ const Dashboard = () => {
   }
   return (
     <div>
-      <div className="my-4 stats inline-grid md:flex shadow stats-vertical md:stats-horizontal">
+      <div className="my-4 stats inline-grid stats-vertical lg:stats-horizontal xl:stats-horizontal xxl:stats-horizontal  md:stats-horizontal xxl:flex xl:flex md:flex xxs:flex shadow">
         <div className="stat">
           <div className="stat-title">Sales</div>
           <div className="stat-value text-primary">
@@ -140,7 +140,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 xxs:grid-cols-1 gap-4">
         <div>
           <h2 className="text-xl py-2">Sales Report</h2>
           <Line data={salesData} />
@@ -149,10 +149,10 @@ const Dashboard = () => {
           <h2 className="text-xl py-2">Orders Report</h2>
           <Line data={ordersData} />
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 xxs:grid-cols-1 gap-4">
           <div>
             <h2 className="text-xl py-2">Products Report</h2>
-            <div className="flex items-center justify-center h-80 w-96">
+            <div className="flex items-center justify-center h-80 w-96 md:w-40 lg:w-40 xl:w-56 xxl:w-56">
               <Doughnut data={productsData} />
             </div>
           </div>
