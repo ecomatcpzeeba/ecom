@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 export const SizeSchema = new mongoose.Schema({
   countInStock: { type: Number, required: true, default: 0 },
-  size: { type: String, required: true },
+  size: { type: String, required: [true, 'Size is required'], default: 'N/A' },
 })
 
 const productSchema = new mongoose.Schema(
@@ -15,7 +15,6 @@ const productSchema = new mongoose.Schema(
     brand: { type: String, required: true },
     rating: { type: Number, required: true, default: 0 },
     numReviews: { type: Number, required: true, default: 0 },
-    countInStock: { type: Number, required: true, default: 0 },
     description: { type: String, required: true },
     colors: { type: String, required: true },
     isFeatured: { type: Boolean, default: false },
@@ -23,7 +22,7 @@ const productSchema = new mongoose.Schema(
     isDiscounted: { type: Boolean, default: false },
     discountPercent: { type: Number, default: 0 },
     discountValue: { type: Number, default: 0 },
-    size: { type: [SizeSchema], required: true },
+    sizes: { type: [SizeSchema], required: true },
   },
   {
     timestamps: true,
@@ -50,9 +49,8 @@ export type Product = {
   numReviews: number
   countInStock: number
   colors: string
-  sizes: string
   isDiscounted?: boolean
   discountPercent?: number
   discountValue?: number
-  size: Array<{ size: string; countInStock: number }>
+  sizes: Array<{ size: string; countInStock: number }>
 }

@@ -43,6 +43,40 @@ export const POST = auth(async (...request: any) => {
           }
         )
       }
+      // Reduce stock for each item in the order
+      for (const item of order.items) {
+        const product = await ProductModel.findById(item.product).select(
+          'sizes'
+        )
+        console.log(product)
+
+        if (!product || !product.sizes) {
+          throw new Error(
+            `Product ${product.name || item.product} has no sizes defined`
+          )
+        }
+
+        const sizeIndex = product.sizes.findIndex(
+          (s: { size: string; countInStock: number }) => s.size === item.size
+        )
+        console.log(sizeIndex)
+
+        if (sizeIndex !== -1) {
+          if (product.sizes[sizeIndex].countInStock >= item.qty) {
+            product.sizes[sizeIndex].countInStock -= item.qty // Reduce stock for the specific size
+          } else {
+            throw new Error(
+              `Insufficient stock for size ${item.size} of product ${product.name}`
+            )
+          }
+        } else {
+          throw new Error(
+            `Size ${item.size} not found for product ${product.name}`
+          )
+        }
+
+        await product.save() // Save the updated product document
+      }
 
       // Update the order in the database as paid
       order.isPaid = true

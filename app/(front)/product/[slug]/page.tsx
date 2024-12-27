@@ -35,12 +35,6 @@ export default async function ProductDetails({
     product.name
   )
 
-  const isSingleSize = typeof product.sizes === 'string'
-  const isAvailable =
-    (product.countInStock > 0 && product.sizes.length > 0) ||
-    (Array.isArray(product.size) &&
-      product.size.some((s) => s.countInStock > 0))
-
   const hasDiscount = product.isDiscounted && (product.discountPercent ?? 0) > 0
 
   return (
@@ -119,19 +113,14 @@ export default async function ProductDetails({
                   )}
                 </div>
               </div>
-              <div className="mb-2 flex justify-between">
-                <div>Status</div>
-                <div>{isAvailable ? 'In stock' : 'Unavailable'}</div>
-              </div>
 
               <AddToCart
-                sizes={product.size}
+                sizes={product.sizes}
                 product={convertDocToObj(product)}
               />
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </>
   )

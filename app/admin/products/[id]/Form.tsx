@@ -43,13 +43,13 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       discountPercent: 30,
       isFeatured: false,
       banner: '',
-      size: [],
+      sizes: [],
     },
   })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'size', // Name of the sizes array in the form
+    name: 'sizes', // Name of the sizes array in the form
   })
 
   const isDiscounted = watch('isDiscounted', false)
@@ -140,13 +140,12 @@ export default function ProductEditForm({ productId }: { productId: string }) {
       setValue('countInStock', product.countInStock)
       setValue('description', product.description)
       setValue('colors', product.colors)
-      setValue('sizes', product.sizes)
       setValue('isDiscounted', product.isDiscounted)
       setValue('discountPercent', product.discountPercent)
       setValue('discountValue', product.discountValue)
       setValue('isFeatured', product.isFeatured)
       setValue('banner', product.banner)
-      setValue('size', product.size || [])
+      setValue('sizes', product.sizes || [])
     }
   }, [product, setValue])
 
@@ -349,17 +348,6 @@ export default function ProductEditForm({ productId }: { productId: string }) {
           )}
         </div>
 
-        <div className="mb-4">
-          <label>Size</label>
-          <input
-            type="text"
-            {...register('sizes', { required: true })}
-            className="w-full border p-2"
-          />
-          {errors.sizes && (
-            <span className="text-red-500">Size is required</span>
-          )}
-        </div>
         {/* Sizes Management */}
         <div className="mb-4">
           <h3 className="text-xl mb-2">Sizes</h3>
@@ -367,14 +355,16 @@ export default function ProductEditForm({ productId }: { productId: string }) {
             <div key={field.id} className="flex items-center mb-2">
               <input
                 type="text"
-                {...register(`size.${index}.size` as const, { required: true })}
+                {...register(`sizes.${index}.size` as const, {
+                  required: true,
+                })}
                 defaultValue={field.size}
                 placeholder="Size"
                 className="border p-2 mr-2 w-1/3"
               />
               <input
                 type="number"
-                {...register(`size.${index}.countInStock` as const, {
+                {...register(`sizes.${index}.countInStock` as const, {
                   required: true,
                 })}
                 defaultValue={field.countInStock}

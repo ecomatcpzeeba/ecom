@@ -63,10 +63,11 @@ export default function OrderDetails({
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error('Payment verification failed.')
+        throw new Error(errorData.message || 'Payment verification failed.')
       }
 
       const result = await response.json()
+      console.log('result', result)
       toast.success('Payment verified successfully!')
       router.push(`/order/${result._id}`) // Redirect to order details after success
     } catch (error) {
@@ -114,6 +115,7 @@ export default function OrderDetails({
           prefill: {
             email: session?.user?.email,
           },
+
           notes: {
             receipt: 'orderId',
           },
@@ -254,7 +256,7 @@ export default function OrderDetails({
                             height={50}
                           />
                           <span className="px-2">
-                            {item.name} ({item.color} {item.size})
+                            {item.name} ({item.color} {item.sizes})
                           </span>
                         </Link>
                       </td>

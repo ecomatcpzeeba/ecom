@@ -17,7 +17,6 @@ type Product = {
   price: number
   image: string
   sizes: SizeOption[]
-  countInStock: number
   discountPercent?: number
   discountValue?: number
   isDiscounted?: boolean
@@ -27,78 +26,90 @@ type SizeSelectorProps = {
   sizes: SizeOption[]
   product: Product
 }
+
 export default function AddToCart({ sizes, product }: SizeSelectorProps) {
-  const { items, increase, decrease } = useCartService() // Get cart state and actions.
-  const [selectedSize, setSelectedSize] = useState<string | null>(null) // Selected size.
-  const [quantity, setQuantity] = useState(1) // Quantity for the selected size.
-  const [existItem, setExistItem] = useState<OrderItem | undefined>() // Check if item exists in cart.
+  const { items, increase, decrease } = useCartService()
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [quantity, setQuantity] = useState(1)
+  const [existItem, setExistItem] = useState<OrderItem | undefined>()
+  const [sizeStockStatus, setSizeStockStatus] =
+    useState<string>('Select a size')
   const router = useRouter()
 
   const hasDiscount = product.isDiscounted && (product.discountPercent ?? 0) > 0
 
   useEffect(() => {
     if (selectedSize) {
+      const selectedOption = sizes.find((size) => size.size === selectedSize)
+      if (selectedOption?.countInStock) {
+        setSizeStockStatus('In Stock')
+      } else {
+        setSizeStockStatus('Out of Stock')
+      }
+
       setExistItem(
-        items.find((x) => x._id === product._id && x.size === selectedSize)
-      ) // Find item in cart by product ID and size.
+        items.find((x) => x._id === product._id && x.sizes === selectedSize)
+      )
     } else {
       setExistItem(undefined)
+      setSizeStockStatus('Select a size')
     }
-  }, [items, product._id, selectedSize])
+  }, [selectedSize, sizes, items, product._id])
 
   const handleSizeClick = (size: string) => {
-    if (selectedSize === size) {
-      setSelectedSize(null) // Deselect size.
-    } else {
-      setSelectedSize(size) // Select size.
+    const selectedOption = sizes.find((option) => option.size === size)
+    if (selectedOption) {
+      setSelectedSize(size)
+      setSizeStockStatus(
+        selectedOption.countInStock > 0 ? 'In Stock' : 'Out of Stock'
+      )
     }
   }
 
   const handleAddToCart = () => {
-    console.log('Handle Add to Cart triggered...')
-    try {
-      if (!existItem) {
-        console.log('Adding new item to cart...')
-        increase({
-          _id: product._id,
-          name: product.name,
-          slug: product.slug,
-          price: hasDiscount
-            ? product.discountValue ?? product.price
-            : product.price,
-          image: product.image,
-          size: selectedSize!,
-          qty: quantity,
-          color: 'Black', // Default color.
-        })
-        console.log('Item added successfully. Navigating to /cart...')
-      } else {
-        console.log('Item already exists in cart. Skipping...')
-      }
-    } catch (error) {
-      console.error('Error in handleAddToCart:', error)
+    if (!existItem) {
+      increase({
+        _id: product._id,
+        name: product.name,
+        slug: product.slug,
+        price: hasDiscount
+          ? product.discountValue ?? product.price
+          : product.price,
+        image: product.image,
+        sizes: selectedSize!,
+        qty: quantity,
+        color: 'Black',
+      })
     }
     router.push('/cart')
   }
 
   const handleIncrease = () => {
     if (existItem) {
-      increase({ ...existItem, qty: existItem.qty + 1 }) // Increment quantity.
+      increase({ ...existItem, qty: existItem.qty + 1 })
     } else if (selectedSize) {
-      handleAddToCart() // Add to cart if not already in it.
+      handleAddToCart()
     }
   }
 
   const handleDecrease = () => {
     if (existItem && existItem.qty > 0) {
-      decrease(existItem) // Decrease quantity in cart.
+      decrease(existItem)
     }
   }
 
-  const isDisabled = !selectedSize || (existItem ? existItem.qty === 0 : false) // Disable Add to Cart button.
+  const isDisabled = !selectedSize || (existItem ? existItem.qty === 0 : false)
 
   return (
     <div className="p-4">
+      <p
+        className={`text-lg font-bold ${
+          sizeStockStatus === 'In Stock' ? 'text-green-600' : 'text-red-600'
+        }`}
+      >
+        {sizeStockStatus}
+      </p>
+
       <label htmlFor="size" className="block text-sm font-medium mb-2">
         Select Size:
       </label>
@@ -110,9 +121,7 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
           return (
             <button
               key={option.size}
-              onClick={() => {
-                if (!isOutOfStock) handleSizeClick(option.size)
-              }}
+              onClick={() => handleSizeClick(option.size)}
               disabled={isOutOfStock}
               className={`w-16 h-16 flex items-center justify-center rounded-full border 
                 transition-colors duration-200 
@@ -123,7 +132,7 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
                 } 
                 ${
                   isOutOfStock
-                    ? 'opacity-50 cursor-not-allowed'
+                    ? 'opacity-50 cursor-not-allowed line-through'
                     : 'hover:bg-yellow-300'
                 }`}
             >
