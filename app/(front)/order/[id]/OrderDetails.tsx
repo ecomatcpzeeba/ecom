@@ -63,7 +63,7 @@ export default function OrderDetails({
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.message || 'Payment verification failed.')
+        throw new Error('Payment verification failed.')
       }
 
       const result = await response.json()
@@ -114,7 +114,6 @@ export default function OrderDetails({
           prefill: {
             email: session?.user?.email,
           },
-
           notes: {
             receipt: 'orderId',
           },

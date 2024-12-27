@@ -53,32 +53,6 @@ export const POST = auth(async (...request: any) => {
         signature: razorpaySignature,
       }
 
-      // Reduce stock for each item in the order
-      for (const item of order.items) {
-        const product = await ProductModel.findById(item.product)
-        if (product) {
-          const sizeIndex = product.size.findIndex(
-            (s: { size: string; countInStock: number }) => s.size === item.size
-          )
-          if (sizeIndex !== -1) {
-            if (product.size[sizeIndex].countInStock >= item.qty) {
-              product.size[sizeIndex].countInStock -= item.qty
-            } else {
-              throw new Error(
-                `Insufficient stock for size ${item.size} of product ${product.name}`
-              )
-            }
-          } else {
-            throw new Error(
-              `Size ${item.size} not found for product ${product.name}`
-            )
-          }
-          await product.save()
-        } else {
-          throw new Error(`Product with ID ${item.product} not found`)
-        }
-      }
-
       const updatedOrder = await order.save()
 
       return Response.json(updatedOrder)
