@@ -128,11 +128,11 @@ const Form = () => {
                             height={50}
                           ></Image>
                           <span className="px-2">
-                            {item.name}({item.color} {item.sizes})
+                            {item.name}({item.color} {item.size})
                           </span>
                         </Link>
                       </td>
-                      <td>{item.sizes}</td>
+                      <td>{item.size}</td>
                       <td>
                         <span>{item.qty}</span>
                       </td>

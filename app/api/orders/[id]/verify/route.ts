@@ -43,7 +43,6 @@ export const POST = auth(async (...request: any) => {
           }
         )
       }
-
       // Update the order in the database as paid
       order.isPaid = true
       order.paidAt = Date.now()
