@@ -48,7 +48,7 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
       }
 
       setExistItem(
-        items.find((x) => x._id === product._id && x.sizes === selectedSize)
+        items.find((x) => x._id === product._id && x.size === selectedSize)
       )
     } else {
       setExistItem(undefined)
@@ -76,7 +76,7 @@ export default function AddToCart({ sizes, product }: SizeSelectorProps) {
           ? product.discountValue ?? product.price
           : product.price,
         image: product.image,
-        sizes: selectedSize!,
+        size: selectedSize!,
         qty: quantity,
         color: 'Black',
       })

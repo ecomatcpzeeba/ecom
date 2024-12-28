@@ -80,7 +80,7 @@ export type OrderItem = {
   image: string
   price: number
   color: string
-  sizes: string
+  size: string
 }
 
 export type ShippingAddress = {

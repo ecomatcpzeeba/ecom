@@ -256,7 +256,7 @@ export default function OrderDetails({
                             height={50}
                           />
                           <span className="px-2">
-                            {item.name} ({item.color} {item.sizes})
+                            {item.name} ({item.color} {item.size})
                           </span>
                         </Link>
                       </td>

@@ -57,11 +57,11 @@ export default function useCartService() {
 
     increase: (item: OrderItem) => {
       const exist = items.find(
-        (x) => x._id === item._id && x.sizes === item.sizes
+        (x) => x._id === item._id && x.size === item.size
       )
       const updatedCartItems = exist
         ? items.map((x) =>
-            x._id === item._id && x.sizes === item.sizes
+            x._id === item._id && x.size === item.size
               ? { ...x, qty: x.qty + 1 }
               : x
           )
@@ -81,15 +81,15 @@ export default function useCartService() {
 
     decrease: (item: OrderItem) => {
       const exist = items.find(
-        (x) => x._id === item._id && x.sizes === item.sizes
+        (x) => x._id === item._id && x.size === item.size
       )
       if (!exist) return
 
       const updatedCartItems =
         exist.qty === 1
-          ? items.filter((x) => !(x._id === item._id && x.sizes === item.sizes))
+          ? items.filter((x) => !(x._id === item._id && x.size === item.size))
           : items.map((x) =>
-              x._id === item._id && x.sizes === item.sizes
+              x._id === item._id && x.size === item.size
                 ? { ...x, qty: x.qty - 1 }
                 : x
             )

@@ -52,7 +52,7 @@ export default function CartDetails() {
                         <span className="px-2">{item.name}</span>
                       </Link>
                     </td>
-                    <td>{item.sizes}</td>
+                    <td>{item.size}</td>
                     <td>
                       <button
                         className="btn"
