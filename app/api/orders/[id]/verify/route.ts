@@ -21,6 +21,7 @@ export const POST = auth(async (...request: any) => {
 
   // Fetch the order from the database
   const order = await OrderModel.findById(params.id)
+  console.log(order)
   if (order) {
     try {
       const { razorpayOrderId, razorpayPaymentId, razorpaySignature } =
@@ -48,8 +49,8 @@ export const POST = auth(async (...request: any) => {
         const product = await ProductModel.findById(item.product).select(
           'sizes'
         )
-        console.log(product)
-        console.log('item.size', item.size)
+        console.log('product:', product)
+        console.log('item:', item)
 
         if (!product || !product.sizes) {
           throw new Error(
@@ -60,6 +61,7 @@ export const POST = auth(async (...request: any) => {
         const sizeIndex = product.sizes.findIndex(
           (s: { size: string; countInStock: number }) => s.size === item.size
         )
+        console.log(sizeIndex)
 
         if (sizeIndex !== -1) {
           if (product.sizes[sizeIndex].countInStock >= item.qty) {
@@ -71,7 +73,7 @@ export const POST = auth(async (...request: any) => {
           }
         } else {
           throw new Error(
-            `Size ${item.size} not found for product ${product.name}`
+            `Size ${item.size} not found for product ${product.sizes}`
           )
         }
 
