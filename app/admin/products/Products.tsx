@@ -74,7 +74,7 @@ export default function Products() {
               <th>CATEGORY</th>
               <th>COUNT IN STOCK</th>
               <th>RATING</th>
-              <th>ACTIONS</th>
+              <th>ACTION</th>
             </tr>
           </thead>
           <tbody>
