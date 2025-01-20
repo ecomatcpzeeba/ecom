@@ -21,41 +21,6 @@ const authConfig = {
         return false // Unauthorized access
       }
 
-      // Get the user's IP address
-      const ip = request.headers.get("x-forwarded-for") || request.ip
-
-      // Log the IP address for debugging
-      console.log("IP Address: ", ip)
-
-      // Skip geolocation check for localhost or loopback addresses
-      if (ip === "0:0:0:0:0:0:0:1" || ip === "127.0.0.1" || ip === "::1") {
-        console.log(
-          "Access from localhost or loopback, skipping geolocation check."
-        )
-        return true // Allow localhost access without geolocation check
-      }
-
-      // Geolocation API Check
-      const geoLocationAPI = `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.GEOLOCATION}`
-
-      try {
-        const res = await fetch(`${geoLocationAPI}&ip=${ip}`)
-        const location = await res.json()
-
-        // Allow only users from Chennai, Tamil Nadu, India
-        if (
-          location.city !== "Chennai" ||
-          location.state_prov !== "Tamil Nadu" ||
-          location.country_name !== "India"
-        ) {
-          console.log("Blocked access from:", location)
-          return false // Blocked access
-        }
-      } catch (error) {
-        console.error("Geolocation API Error:", error)
-        return false // Block access on API failure
-      }
-
       return true // Authorized access
     },
   },
